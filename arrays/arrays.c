@@ -26,7 +26,12 @@ Array *create_array (int capacity) {
   arr->capacity = capacity;
   arr->count = 0;
   // Allocate memory for elements
-  arr->elements = malloc(arr->capacity * sizeof(char *));  // allocationing memory equal to capacity times the size of a string
+  arr->elements = malloc(capacity * sizeof(char *));  // allocationing memory equal to capacity times the size of a string
+
+  // initialing all elements to be NULL to pass tests
+  for (int i = 0; i < capacity; i++) {
+    arr->elements[i] = NULL;
+  }
 
   return arr;
 }
@@ -52,7 +57,7 @@ void resize_array(Array *arr) {
   // Create a new element storage with double capacity
   char **new_elements = malloc(sizeof(arr->elements) * 2);
   // Copy elements into the new storage
-  for (int i = 0; i < arr->count; i++) {
+  for (int i = 0; i < arr->capacity; i++) {
     new_elements[i] = arr->elements[i];
   }
   // Free the old elements array (but NOT the strings they point to
@@ -60,6 +65,10 @@ void resize_array(Array *arr) {
   // Update the elements and capacity to new values
   arr->elements = new_elements;
   arr->capacity *= 2;
+  // make all the values in the new elements array that weren't copied over equal to NULL
+  for (int i = arr->count; i < arr->capacity; i++) {
+    arr->elements[i] = NULL;
+  }
 }
 
 
@@ -115,10 +124,14 @@ void arr_append(Array *arr, char *element) {
 
   // Resize the array if the number of elements is over capacity
   // or throw an error if resize isn't implemented yet.
-
+  if (arr->count == arr->capacity) {
+    resize_array(arr);
+  }
   // Copy the element and add it to the end of the array
+  arr->elements[(arr->count)] = element;
 
   // Increment count by 1
+  arr->count++;
 
 }
 
