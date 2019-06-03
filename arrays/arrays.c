@@ -178,6 +178,7 @@ void arr_remove(Array *arr, char *element) {
       arr->elements[i] = arr->elements[i+1];
     }
 
+    // set last element to NULL as it's already been moved to the left and is now a duplicate
     arr->elements[(arr->count) - 1] = NULL;
   // Decrement count by 1
     arr->count--;
