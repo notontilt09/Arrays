@@ -43,6 +43,9 @@ Array *create_array (int capacity) {
 void destroy_array(Array *arr) {
 
   // Free all elements
+  for (int i = 0; i < arr->count; i++) {
+    free(arr->elements[i]);
+  }
   free(arr->elements);
   // Free array
   free(arr);
@@ -139,7 +142,7 @@ void arr_append(Array *arr, char *element) {
     resize_array(arr);
   }
   // Copy the element and add it to the end of the array
-  arr->elements[(arr->count)] = element;
+  arr->elements[(arr->count)] = strdup(element);
 
   // Increment count by 1
   arr->count++;
